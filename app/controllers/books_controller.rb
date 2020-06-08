@@ -7,6 +7,7 @@ before_action :baria_user, only: [:edit ,:update]
   	@book = Book.find(params[:id])
     @user = @book.user
     @book_comment = BookComment.new
+    @newcomment = BookComment.new
   end
 
   def index

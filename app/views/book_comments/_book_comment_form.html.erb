@@ -1,0 +1,5 @@
+			    </table>
+			    <%= form_with model: [book, newcomment ] do |f| %>
+			     <%= f.text_area :comment  %>
+			     <%= f.submit "送信" %>
+			    <% end %>
