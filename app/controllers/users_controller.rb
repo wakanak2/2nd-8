@@ -56,3 +56,11 @@ before_action :baria_user, only: [:edit ,:update]
    end
 
 end
+
+class Users::RegistrationsController < Devise::RegistrationsController
+
+    def create
+    super
+    ApplicationMailer.send_confirm_to_user(user).deliver unless resource.invalid?
+  end
+end
