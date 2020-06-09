@@ -13,6 +13,15 @@ class User < ApplicationRecord
   has_many :passive_relationships, class_name: 'Relationship',foreign_key: 'followed_id',dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :following
   attachment :profile_image, destroy: false
+  
+  def address
+   "%s %s"%([ self.prefecture_name,self.address_city,self.address_street,self.address_building])
+   
+   end
+
+  geocoded_by :address
+  after_validation :geocode, if: :address_city_changed?
+
 
   #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
   validates :name, length: {maximum: 20, minimum: 2}
@@ -51,6 +60,18 @@ class User < ApplicationRecord
       end
     end
   end
+
+
+  include JpPrefecture
+  jp_prefecture :prefecture_code
+
+    def prefecture_name
+      JpPrefecture::Prefecture.find(code: prefecture_code).try(:name)
+    end
+
+    def prefecture_name=(prefecture_name)
+      self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
+    end
 
 
 end

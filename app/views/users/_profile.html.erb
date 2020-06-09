@@ -10,9 +10,8 @@
 		<tr>
 			<th>introduction</th>
 			<th><%= user.introduction %></th>
-			
-			<th><%= user.introduction %></th>
 		</tr>
+
 		<tr>
 			<th>Follows</th>
 			<th><%= link_to user.followings.count,follows_user_path(user)%></th>
